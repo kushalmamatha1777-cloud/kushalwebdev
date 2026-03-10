@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Seller | Buy & Sell Websites</title>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 5rem 1rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        /* Filter Section */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Listings Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 5rem 1rem;
+        }
+
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            height: 180px;
+            background-color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tag {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        /* Modal (Simple) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .close-btn {
+            margin-top: 1rem;
+            background: var(--gray);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; } /* Simplified for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Web Seller
+        </a>
+        <div class="nav-links">
+            <a href="#">Browse</a>
+            <a href="#">Sell a Site</a>
+            <a href="#">About</a>
+            <a href="#" class="btn btn-primary">Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Buy & Sell Websites Instantly</h1>
+        <p>The marketplace for digital assets. Find profitable websites, blogs, and e-commerce stores ready for your next project.</p>
+        <a href="#listings" class="btn btn-primary">Start Browsing</a>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="listings">
+        
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterSelection('all')">All</button>
+            <button class="filter-btn" onclick="filterSelection('ecommerce')">E-Commerce</button>
+            <button class="filter-btn" onclick="filterSelection('blog')">Blogs</button>
+            <button class="filter-btn" onclick="filterSelection('saas')">SaaS Tools</button>
+        </div>
+
+        <!-- Listings Grid -->
+        <div class="listings-grid">
+            
+            <!-- Item 1 -->
+            <div class="card filter-item ecommerce">
+                <div class="card-image" style="background: #3b82f6;">🛒</div>
+                <div class="card-content">
+                    <span class="card-tag">E-Commerce</span>
+                    <h3 class="card-title">Vintage Sneaker Store</h3>
+                    <p class="card-desc">Established Shopify store selling rare sneakers. High traffic and recurring customers.</p>
+                    <div class="card-stats">
+                        <span>👁️ 12k/mo</span>
+                        <span>💰 $4k/mo Rev</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">$45,000</span>
+                        <button class="btn btn-primary" onclick="openModal('Vintage Sneaker Store')">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="card filter-item blog">
+                <div class="card-image" style="background: #10b981;">📝</div>
+                <div class="card-content">
+                    <span class="card-tag">Blog</span>
+                    <h3 class="card-title">Tech Review Daily</h3>
+                    <p class="card-desc">Niche blog covering the latest gadgets. Monetized with AdSense and Affiliate links.</p>
+                    <div class="card-stats">
+                        <span>👁️ 50k/mo</span>
+                        <span>📅 3 yrs old</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">$12,500</span>
+                        <button class="btn btn-primary" onclick="openModal('Tech Review Daily')">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="card filter-item saas">
+                <div class="card-image" style="background: #8b5cf6;">⚙️</div>
+                <div class="card-content">
+                    <span class="card-tag">SaaS Tool</span>
+                    <h3 class="card-title">Invoice Generator</h3>
+                    <p class="card-desc">Simple web app for freelancers to generate PDF invoices. 200+ active subscribers.</p>
+                    <div class="card-stats">
+                        <span>👁️ 5k/mo</span>
+                        <span>💰 $2.5k/mo Rev</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">$28,000</span>
+                        <button class="btn btn-primary" onclick="openModal('Invoice Generator')">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="card filter-item ecommerce">
+                <div class="card-image" style="background: #f59e0b;">👕</div>
+                <div class="card-content">
+                    <span class="card-tag">E-Commerce</span>
+                    <h3 class="card-title">Eco-Friendly Apparel</h3>
+                    <p class="card-desc">Print-on-demand store focusing on sustainable fashion. Low overhead costs.</p>
+                    <div class="card-stats">
+                        <span>👁️ 8k/mo</span>
+                        <span>💰 $1.2k/mo Rev</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">$8,000</span>
+                        <button class="btn btn-primary" onclick="openModal('Eco-Friendly Apparel')">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <h2>Web Seller</h2>
+        <p>The #1 Marketplace for Digital Assets.</p>
+        <br>
+        <p>&copy; 2023 Web Seller Inc. All rights reserved.</p>
+    </footer>
+
+    <!-- Simple Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Contact Seller</h3>
+            <p style="margin: 1rem 0; color: #666;">Interested in this website? Send a message to the owner.</p>
+            <input type="email" placeholder="Your Email" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            <textarea placeholder="Message..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; height: 100px;"></textarea>
+            <button class="btn btn-primary" onclick="closeModal()">Send Message</button>
+            <button class="btn close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+
+        // Filter Functionality
+        function filterSelection(category) {
+            const items = document.getElementsByClassName("filter-item");
+            const buttons = document.getElementsByClassName("filter-btn");
+
+            // Update active button style
+            for (let btn of buttons) {
+                btn.classList.remove("active");
+                if (btn.innerText.toLowerCase().includes(category) || (category === 'all' && btn.innerText === 'All')) {
+                    btn.classList.add("active");
+                }
+            }
+
+            // Show/Hide items
+            for (let i = 0; i < items.length; i++) {
+                if (category === "all") {
+                    items[i].style.display = "flex";
+                } else {
+                    if (items[i].classList.contains(category)) {
+                        items[i].style.display = "flex";
+                    } else {
+                        items[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Modal Functionality
+        const modal = document.getElementById('contactModal');
+        const modalTitle = document.getElementById('modalTitle');
+
+        function openModal(siteName) {
+            modalTitle.innerText = "Inquire about: " + siteName;
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Close modal if clicking outside box
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
